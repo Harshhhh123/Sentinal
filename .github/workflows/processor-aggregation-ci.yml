@@ -2,7 +2,7 @@ name: Processor Aggregation CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
     paths:
       - "backend/processor-aggregation/**"
 
@@ -34,6 +34,14 @@ jobs:
           | docker login --username AWS --password-stdin \
             $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
 
+      - name: Debug Repo Structure
+        run: |
+          echo "PWD = $(pwd)"
+          ls -la
+          ls -la backend
+          ls -la backend/processor-aggregation
+
+          
       - name: Build Image
         run: |
           docker build \
@@ -51,7 +59,5 @@ jobs:
         run: |
           ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
           docker push $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO:latest
-        
-
 
         # force rerun
