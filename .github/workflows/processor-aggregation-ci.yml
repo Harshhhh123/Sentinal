@@ -36,7 +36,7 @@ jobs:
 
       - name: Build Image
         run: |
-          docker build -t $ECR_REPO ./processor-aggregation
+          docker build -t $ECR_REPO ./backend/processor-aggregation
 
       - name: Tag Image
         run: |
