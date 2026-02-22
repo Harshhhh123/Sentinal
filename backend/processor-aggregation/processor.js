@@ -59,7 +59,7 @@ async function processMessage(event) {
 
     } catch (err) {
         await client.query("ROLLBACK");
-        console.error(" Processing error happened:", err);
+        console.error(" Processing error present:", err);
     } finally {
         client.release();
     }
