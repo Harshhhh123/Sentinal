@@ -55,7 +55,7 @@ async function processMessage(event) {
 
         await client.query("COMMIT");
 
-        console.log(`✔ ${event.metric} → EMA ${newEma}`);
+        console.log(` ${event.metric} → EMA ${newEma}`);
 
     } catch (err) {
         await client.query("ROLLBACK");
