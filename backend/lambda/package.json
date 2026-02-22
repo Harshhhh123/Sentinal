@@ -11,6 +11,7 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
-    "@aws-sdk/client-cloudwatch": "^3.995.0"
+    "@aws-sdk/client-cloudwatch": "^3.995.0",
+    "kafkajs": "^2.2.4"
   }
 }
