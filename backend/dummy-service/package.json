@@ -9,5 +9,9 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs"
+  "type": "commonjs",
+  "dependencies": {
+    "docker": "^1.0.0",
+    "aws-sdk": "^2.0.0"
+  }
 }

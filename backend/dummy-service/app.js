@@ -1,23 +1,52 @@
-function burnCpu(ms) {
-    const end = Date.now() + ms;
-    while (Date.now() < end) {
-        Math.sqrt(Math.random());
+const AWS = require("aws-sdk");
+
+const cloudwatch = new AWS.CloudWatch({ region: "ap-south-1" });
+
+let requestCount = 0;
+let errorCount = 0;
+
+function simulateTraffic() {
+    const requests = Math.floor(Math.random() * 3);
+    const errors = Math.random() > 0.9 ? 1 : 0;
+
+    requestCount += requests;
+    errorCount += errors;
+
+    console.log(`Simulated → Requests +${requests}, Errors +${errors}`);
+}
+
+async function publishMetrics() {
+    const params = {
+        Namespace: "Custom/DummyService",
+        MetricData: [
+            {
+                MetricName: "RequestCount",
+                Value: requestCount,
+                Unit: "Count"
+            },
+            {
+                MetricName: "ErrorCount",
+                Value: errorCount,
+                Unit: "Count"
+            }
+        ]
+    };
+
+    try {
+        await cloudwatch.putMetricData(params).promise();
+        console.log("✅ Metrics published to CloudWatch");
+
+        requestCount = 0;
+        errorCount = 0;
+
+    } catch (err) {
+        console.error("❌ Metric publish error:", err);
     }
 }
 
-function randomLoadPattern() {
-    const spikeChance = Math.random();
+console.log("Dummy service started (safe metrics mode)...");
 
-    if (spikeChance > 0.8) {
-        console.log("🔥 CPU SPIKE MODE");
-        burnCpu(500);
-    } else {
-        burnCpu(50);
-    }
-}
+setInterval(simulateTraffic, 1000);
 
-console.log("Dummy metric producer started...");
-
-setInterval(() => {
-    randomLoadPattern();
-}, 100);
+/* Publish VERY INFREQUENTLY → cost safe */
+setInterval(publishMetrics, 60000);
