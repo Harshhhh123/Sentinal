@@ -17,9 +17,9 @@ coverage/
 logs/
 *.log
 
-# Docker
-Dockerfile
-docker-compose.yml
+# # Docker
+# Dockerfile
+# docker-compose.yml
 
 # OS files
 .DS_Store
