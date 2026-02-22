@@ -1,6 +1,6 @@
 const { Kafka } = require("kafkajs");
 const { Pool } = require("pg");
-
+require("dotenv").config();
 const kafka = new Kafka({
     clientId: "aggregation-processor",
     brokers: ["35.154.169.189:9092"]
@@ -9,10 +9,10 @@ const kafka = new Kafka({
 const consumer = kafka.consumer({ groupId: "aggregation-group" });
 
 const pool = new Pool({
-    host: "35.154.169.189",
-    user: "admin",
-    password: "admin",
-    database: "metrics",
+    host: process.env.PG_HOST,
+    user: process.env.PG_USER,
+    password: process.env.PG_PASSWORD,
+    database: process.env.PG_DATABASE,
     port: 5432
 });
 
