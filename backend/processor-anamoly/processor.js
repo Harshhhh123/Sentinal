@@ -30,12 +30,7 @@ const thresholds = {
     RequestCount: 50,
     ErrorCount: 5
 };
-// const thresholds = {
-//     CPUUtilization: 1,
-//     MemoryUtilization: 2,
-//     RequestCount: 5,
-//     ErrorCount: 3
-// };
+
 function computeEMA(metric, value) {
     if (!emaState[metric]) {
         emaState[metric] = value;
