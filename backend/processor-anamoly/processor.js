@@ -62,7 +62,7 @@ async function run() {
     await consumer.connect();
     await consumer.subscribe({ topic: "metrics-topic", fromBeginning: false });
 
-    console.log("✅ Anomaly Processor Started");
+    console.log("✅ Anomaly Processor Started successfully!");
 
     await consumer.run({
         eachMessage: async ({ message }) => {
