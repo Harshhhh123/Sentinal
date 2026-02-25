@@ -74,7 +74,7 @@ async function run() {
             const threshold = thresholds[event.metric] || 999999;
 
             if (deviation > threshold) {
-                console.log(`🚨 ANOMALY → ${event.metric} | Value=${event.value} | Baseline=${baseline}`);
+                console.log(`🚨 ANOMALY hai → ${event.metric} | Value=${event.value} | Baseline=${baseline}`);
 
                 await insertAnomaly(event, baseline, deviation);
             } else {
