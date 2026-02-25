@@ -78,7 +78,7 @@ async function run() {
 
                 await insertAnomaly(event, baseline, deviation);
             } else {
-                console.log(`✔ Normal → ${event.metric} | Deviation=${deviation.toFixed(2)}`);
+                console.log(`✔ Normal hai → ${event.metric} | Deviation=${deviation.toFixed(2)}`);
             }
         }
     });
