@@ -1,10 +1,10 @@
-name: Processor Aggregation CI
+name: Processor Anomaly CI
 
 on:
   push:
-    branches: ["main"]
+    branches: [ "main" ]
     paths:
-      - "backend/processor-aggregation/**"
+      - "backend/processor-anomaly/**"
 
 permissions:
   id-token: write
@@ -12,7 +12,7 @@ permissions:
 
 env:
   AWS_REGION: ${{ secrets.AWS_REGION }}
-  ECR_REPO: ${{ secrets.ECR_REPO_AGGREGATION }}
+  ECR_REPO: ${{ secrets.ECR_REPO_ANOMALY }}
 
 jobs:
   build:
@@ -34,13 +34,9 @@ jobs:
           | docker login --username AWS --password-stdin \
             $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
 
-          
       - name: Build Image
         run: |
-          docker build \
-            -t $ECR_REPO \
-            -f ./backend/processor-aggregation/Dockerfile \
-            ./backend/processor-aggregation
+          docker build -t $ECR_REPO ./backend/processor-anomaly
 
       - name: Tag Image
         run: |
@@ -52,5 +48,3 @@ jobs:
         run: |
           ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
           docker push $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO:latest
-
-        # force rerun
