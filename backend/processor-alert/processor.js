@@ -47,7 +47,7 @@ async function processEvent(event) {
             [event.service, event.metric, event.value, trend, event.timestamp]
         );
 
-        console.log(`Prediction detected → ${event.metric} rising fast (${trend})`);
+        console.log(`Prediction and alerts detected → ${event.metric} rising fast (${trend})`);
     }
 }
 
