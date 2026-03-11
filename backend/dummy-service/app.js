@@ -2,21 +2,63 @@ const AWS = require("aws-sdk");
 
 const cloudwatch = new AWS.CloudWatch({ region: "ap-south-1" });
 
-let requestCount = 0;
-let errorCount = 0;
+let requestCount = 30;
+let errorCount = 1;
+
+let tick = 0;
+
+const MODE = process.env.MODE || "normal";
 
 function simulateTraffic() {
-    const requests = Math.floor(Math.random() * 3);
-    // const requests = Math.random() > 0.7 ? 200 : 1;
-    const errors = Math.random() > 0.9 ? 1 : 0;
 
-    requestCount += requests;
-    errorCount += errors;
+    tick++;
 
-    console.log(`Simulated → Requests +${requests}, Errors +${errors}`);
+    if (MODE === "normal") {
+
+        requestCount = 25 + Math.random() * 10;
+        errorCount = Math.random() * 2;
+
+    }
+
+    if (MODE === "test") {
+
+        // Phase 1 → Normal baseline
+        if (tick < 4) {
+
+            requestCount = 30 + Math.random() * 5;
+            errorCount = 1;
+
+        }
+
+        // Phase 2 → Spike → ANOMALY
+        else if (tick === 4) {
+
+            requestCount = 350;
+            errorCount = 40;
+
+            console.log("🔥 SPIKE GENERATED (Anomaly)");
+
+        }
+
+        // Phase 3 → Rising trend → PREDICTION
+        else {
+
+            requestCount += 25;
+            errorCount += 3;
+
+            console.log("📈 TREND INCREASING");
+
+        }
+
+    }
+
+    console.log(`MODE=${MODE}`);
+    console.log(`Requests=${requestCount} Errors=${errorCount}`);
+
 }
 
 async function publishMetrics() {
+
     const params = {
         Namespace: "Custom/DummyService",
         MetricData: [
@@ -34,20 +76,19 @@ async function publishMetrics() {
     };
 
     try {
-        await cloudwatch.putMetricData(params).promise();
-        console.log("✅ Metrics published to CloudWatch");
 
-        requestCount = 0;
-        errorCount = 0;
+        await cloudwatch.putMetricData(params).promise();
+        console.log("Metrics published");
 
     } catch (err) {
-        console.error("❌ Metric publish error:", err);
+
+        console.error("Metric publish error:", err);
+
     }
+
 }
 
-console.log("Dummy service started (safe metrics mode)...");
+console.log("Dummy service started");
 
-setInterval(simulateTraffic, 1000);
-
-/* Publish VERY INFREQUENTLY → cost safe */
+setInterval(simulateTraffic, 5000);
 setInterval(publishMetrics, 60000);
