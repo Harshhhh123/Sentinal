@@ -25,10 +25,10 @@ const ALPHA = 0.2;     // smoothing factor
 /* ===== Threshold Configuration ===== */
 
 const thresholds = {
-    CPUUtilization: 20,
-    MemoryUtilization: 20,
-    RequestCount: 50,
-    ErrorCount: 5
+    CPUUtilization: 2,
+    MemoryUtilization: 2,
+    RequestCount: 2,
+    ErrorCount: 1
 };
 
 function computeEMA(metric, value) {

@@ -7,6 +7,7 @@ let errorCount = 0;
 
 function simulateTraffic() {
     const requests = Math.floor(Math.random() * 3);
+    // const requests = Math.random() > 0.7 ? 200 : 1;
     const errors = Math.random() > 0.9 ? 1 : 0;
 
     requestCount += requests;
