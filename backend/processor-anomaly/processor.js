@@ -45,7 +45,7 @@ function computeEMA(metric, value) {
 async function insertAnomaly(event, baseline, deviation) {
     await pool.query(
         `INSERT INTO anomalies 
-        (service_name, metric_name, value, baseline, deviation, timestamp)
+        (service, metric, value, baseline, deviation, ts)
         VALUES ($1, $2, $3, $4, $5, $6)`,
         [
             event.service,
